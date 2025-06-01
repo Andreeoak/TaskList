@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-<div>
+<nav class="mb-4">
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -12,22 +12,23 @@
     @endif
 
     <div>
-        <a href="{{ route('tasks.create') }}">Create New Task</a>
+        <a href="{{ route('tasks.create') }}" class="font-medium text-gray-300 underline-pink-500">Create New Task</a>
     </div>
     @forelse ($tasks as $task)
         <div>
-            <a href="{{ route('tasks.show',  $task->id) }}">{{$task->title}}</a>
+            <a href="{{ route('tasks.show',  $task->id) }}"
+                @class(['line-through' => $task->completed])>{{$task->title}}</a>
         </div>
     @empty
         <div>
             No tasks found.
         </div>
     @endforelse
-</div>
+</nav>
 
 @if($tasks->hasPages())
-    <div>
+    <nav class="mt-16">
         {{ $tasks->links() }}
-    </div>
+    </nav>
 @endif
 @endsection
