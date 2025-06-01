@@ -5,11 +5,6 @@
 @endsection
 @section('content')
     <div>
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
         <h2>{{ $task->title }}</h2>
         <p class="mb-4 text-slate-700">{{ $task->description }}</p>
         @if($task->long_description)

@@ -1,13 +1,5 @@
 @extends('layouts.app')
 
-@section('styles')
-    <style>
-        .error-msg {
-            color: red;
-            font-size: 0.875rem;
-        }
-    </style>
-@endsection
 
 @section('title', isset($task) ? 'Edit Task' : 'Create Task')
 
@@ -22,26 +14,26 @@
             <label for="title" class="form-label">Title</label>
             <input
                 type="text"
-                class="form-control"
+                @class(['border-red-500' => $errors->has('title')])
                 id="title"
                 name="title"
                 value="{{ old('title', $task->title ?? '') }}"
             >
             @error('title')
-                <div class="error-msg">{{ $message }}</div>
+                <div class="error">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
             <textarea
-                class="form-control"
+                @class(['border-red-500' => $errors->has('description')])
                 id="description"
                 name="description"
                 rows="3"
             >{{ old('description', $task->description ?? '') }}</textarea>
             @error('description')
-                <div class="error-msg">{{ $message }}</div>
+                <div class="error">{{ $message }}</div>
             @enderror
         </div>
 
@@ -54,15 +46,16 @@
                 rows="3"
             >{{ old('long_description', $task->long_description ?? '') }}</textarea>
             @error('long_description')
-                <div class="error-msg">{{ $message }}</div>
+                <div class="error">{{ $message }}</div>
             @enderror
         </div>
 
-        <button type="submit" class="btn btn-primary">
-            @isset($task) Update Task @else Create Task @endisset
-        </button>
-        @if(!isset($task))
-            <a href="{{ route('tasks.index') }}" class="btn btn-secondary">Back to Task List</a>
-        @endif
+        <div class="flex gap-2 items-center">
+            <button type="submit" class="btn btn-primary">
+                @isset($task) Update Task @else Create Task @endisset
+            </button>
+
+            <a href="{{ route('tasks.index') }}" class="link">Cancel</a>
+        </div>
     </form>
 @endsection
