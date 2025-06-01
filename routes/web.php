@@ -13,12 +13,14 @@ Route::get('/', function() {
     return redirect()->route('tasks.index');
 })->name('welcome');
 
+
 Route::get('/tasks', function ()  {
-    return view('index', ['tasks' => Task::latest()->get()]); // Use Eloquent to fetch all tasks
+    return view('index', ['tasks' => Task::latest()->paginate()]); // Pass the number os tasks to paginate
 })->name('tasks.index');
 
 
 Route::view('/tasks/create', 'create')->name('tasks.create');
+
 
 Route::get('/tasks/{task}/edit', function (Task $task)  {
     return view('edit', [
@@ -42,16 +44,25 @@ Route::post('/tasks', function (TaskRequest $request) {
     return redirect()->route('tasks.show', ['task' => $task->id])->with('success', 'Task created successfully!');
 })->name('tasks.store');
 
+
 Route::put('/tasks/{task}', function (TaskRequest $request, Task $task) {
 
     $task->update($request->validated());
-    return redirect()->route('tasks.show', ['id' => $task->id])->with('success', 'Task updated successfully!');
+    return redirect()->route('tasks.show', ['task' => $task->id])->with('success', 'Task updated successfully!');
 })->name('tasks.update');
+
 
 Route::delete('/tasks/{task}', function (Task $task) {
     $task->delete();
     return redirect()->route('tasks.index')->with('success', "Task $task->title deleted successfully!");
 })->name('tasks.destroy');
 
+
+
+route::put('/tasks/{task}/complete', function (Task $task) {
+    $task->toggleCompletion(); // Call the method to mark the task as completed
+    $msg = $task->completed ? 'completed' : 'not completed';
+    return redirect()->route('tasks.show', ['task' => $task->id])->with('success', "Task $task->title marked as $msg!");
+})->name('tasks.toggle-complete');
 
 

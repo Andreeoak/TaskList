@@ -10,6 +10,10 @@
             {{ session('success') }}
         </div>
     @endif
+
+    <div>
+        <a href="{{ route('tasks.create') }}">Create New Task</a>
+    </div>
     @forelse ($tasks as $task)
         <div>
             <a href="{{ route('tasks.show',  $task->id) }}">{{$task->title}}</a>
@@ -20,4 +24,10 @@
         </div>
     @endforelse
 </div>
+
+@if($tasks->hasPages())
+    <div>
+        {{ $tasks->links() }}
+    </div>
+@endif
 @endsection
