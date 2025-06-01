@@ -12,7 +12,7 @@
     @endif
 
     <div>
-        <a href="{{ route('tasks.create') }}" class="font-medium text-gray-300 underline-pink-500">Create New Task</a>
+        <a href="{{ route('tasks.create') }}" class="link">Create New Task</a>
     </div>
     @forelse ($tasks as $task)
         <div>
